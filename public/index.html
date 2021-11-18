@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css" type="text/css">
+    <!-- <script src="/node_modules/animejs/lib/anime.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.js" integrity="sha512-E378bwaeZf1nwXeJGIwTB58A5gPt5jFU3u6aTGja4ZdRFJeo/N/REKnBgNZOZlH6JdnOPO98vg2AnSGaNfCMFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.0.1/lib/anime.min.js"></script>
+    <!-- maybe have title change based on day of week, have one message per day (js)-->
+    <title>I Love You Amber</title>
+    
+</head>
+<body>
+
+<!-- going to need to have a login screen, because we need to both be seeing same speed-->
+<!-- have idea for kind of like old ps3 home screen tech with a hella flowing vibe,
+     but would also want to incorporate the pulse on beat tech and maybe have the pulse affect w/e
+     would be 'floating' in this vibey kinda scenario-->
+<div class='vertical-flex-container'>
+
+    <div class='bpm-counter'>
+        <div id='bpm'>0</div>
+    </div>
+
+    <!-- prob try to get a ripple effect (flushing button w/ white) when clicked-->
+    <!-- maybe just make center play/pause into a heart that is either just outline
+          or filled in respectively-->
+        
+    <div class='main-contain'>
+
+        <div class='left-side-controls'>
+            <button class='speed-controls-l' id='first'>-10</button>
+        </div>
+        
+        <div class='play-pause-control'>
+            <button class='play-pause-btn' id='third'>⏯️</button>
+        </div>
+        
+        <div class='right-side-controls'>
+            <button class='speed-controls-r' id='second'>+10</button>
+        </div>
+        
+
+    </div>
+
+    <div id='beat-counter-container'>
+        <div id='beat-counter-line'></div>
+        <div id='center-beat-circle'></div>
+    </div>
+    
+</div>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="/index.js"></script> -->
+    <script src="scripts.js"></script>
+</body>
+</html>
