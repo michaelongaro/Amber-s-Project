@@ -1,20 +1,16 @@
-
-
 let socket = io();
-
-const width = window.innerWidth || document.documentElement.clientWidth ||
-  document.body.clientWidth;
 
 let bpm = 0;
 let circleID = 0;
 let circleLoop = null;
 const beat_sound = new Audio("./beat.mp3")
+beat_sound.currentTime = 0;
 
 const first = document.getElementById("first");
 const second = document.getElementById("second");
 const third = document.getElementById("third");
 
-first.addEventListener("click", ()=> {
+first.addEventListener("click", () => {
   changeSpeed("first");
 })
 
@@ -25,7 +21,6 @@ second.addEventListener("click", () => {
 third.addEventListener("click", () => {
   changeSpeed("third");
 })
-
 
 function changeSpeed(id) {
   if (bpm < 0) return
@@ -40,24 +35,24 @@ function changeSpeed(id) {
 
   document.getElementById('bpm').innerHTML = bpm;
   socket.emit('button press', bpm);
-  
+
   if (bpm === 0) {
     destroyCircleLoop()
     socket.emit("pause circles");
     return
   }
- 
+
   createAndMoveCircle();
   socket.emit('create circle');
 }
 
-socket.on('render press', (new_val)=> {
+socket.on('render press', (new_val) => {
   let bpm_elem = document.getElementById('bpm');
   bpm = new_val;
   bpm_elem.innerHTML = new_val;
 });
 
-socket.on('render circle', ()=> {
+socket.on('render circle', () => {
   createAndMoveCircle();
 });
 
@@ -72,7 +67,6 @@ function createAndMoveCircle() {
   }
 
   circleLoop = setInterval(() => {
-    // create new circle
     circleID += 1;
 
     const circle = document.createElement("div");
@@ -82,9 +76,13 @@ function createAndMoveCircle() {
     document.body.appendChild(circle);
 
     translateCircle(circleID);
-    setTimeout(()=> { 
-      beat_sound.play() 
-    }, ((60 / bpm) * 1000));
+
+    setTimeout(() => {
+      squishCircle();
+      beat_sound.play();
+      beat_sound.currentTime = 0;
+    }, 950);
+    
   }, (60 / bpm) * 1000);
 }
 
@@ -93,48 +91,30 @@ function destroyCircleLoop() {
   circleLoop = null;
 }
 
-
 function translateCircle(circle_no) {
   anime({
     targets: `#circle${circle_no}`,
-    translateX: [0, -1 * width],
-    duration: 1500,
+    translateX: [0, -1 * (window.innerWidth || document.documentElement.clientWidth ||
+      document.body.clientWidth)],
+    duration: 2000,
     easing: "linear"
   });
 }
 
+function squishCircle() {
+  anime({
+    targets: "#center-beat-circle",
+    scale: [.4, 1],
+    duration: 300,
+    easing: "linear"
+  });
+}
 
-// let bubblyButtons = document.getElementsByClassName("bubbly-button");
-
-// for (var i = 0; i < bubblyButtons.length; i++) {
-//   bubblyButtons[i].addEventListener('click', animateButton, false);
+// function unsquishCircle() {
+//   anime({
+//     targets: "#center-beat-circle",
+//     scale: [.75, 1],
+//     duration: 500,
+//     easing: "linear"
+//   });
 // }
-
-
-
-// (function() {
-//   window.accurateInterval = function(time, fn) {
-//     var cancel, nextAt, timeout, wrapper, _ref;
-//     nextAt = new Date().getTime() + time;
-//     timeout = null;
-//     if (typeof time === 'function') _ref = [time, fn], fn = _ref[0], time = _ref[1];
-
-//     wrapper = function() {
-//       nextAt += time;
-//       timeout = setTimeout(wrapper, nextAt - new Date().getTime());
-//       return fn();
-//     };
-//     cancel = function() {
-//       return clearTimeout(timeout);
-//     };
-//     timeout = setTimeout(wrapper, nextAt - new Date().getTime());
-//     return {
-//       cancel: cancel
-//     };
-//   };
-// }).call(this);
-
-// Use like setTimeout
-  // var timer = accurateInterval(function() {
-  //   console.log('message you will see every second!');
-  // }, 1000);

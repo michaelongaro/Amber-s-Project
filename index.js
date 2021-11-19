@@ -3,9 +3,6 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-//let anime = require("animejs");
-const anime = require('animejs');
-
 app.use(express.static('public'))
 
 app.get('/', function (req, res) {
