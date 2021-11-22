@@ -24,6 +24,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 
     min-height: 100%;
 }
@@ -32,12 +33,24 @@ body {
 .bpm-counter {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 150px;
+    margin-top: 100px;
 }
 
 #bpm {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 75pt;
+}
+
+#sixty-nine {
+    /* margin-top: 50px; */
+    position: relative;
+    display: none;
+}
+
+#secret-container {
+    height: 50px;
+    width: 100px;
+    position: absolute;
 }
 
 .main-contain {
@@ -49,7 +62,7 @@ body {
     margin: auto;
 }
 
-.left-side-controls {
+.left-side-controls, .right-side-controls {
     width: auto;
     height: 100px;
     justify-content: space-evenly;
@@ -62,52 +75,20 @@ body {
     padding-right: 20px;
 }
 
-.right-side-controls {
-    width: auto;
-    height: 100px;
-    justify-content: space-evenly;
-}
-
-.speed-controls-l {
-    width: 100px;
-    height: 50px;
-    outline: none;
-}
-
-.play-pause-btn {
-    width: 100px;
-    height: 50px;
-    outline: none;
-}
-
-.speed-controls-r {
-    width: 100px;
-    height: 50px;
-    outline: none;
-}
-
 button {
     border-radius: 12px;
     border: 2px solid white;
     transition-duration: 0.2s;
+
+    width: 100px;
+    height: 50px;
+    outline: none;
 }
 
-.speed-controls-l:hover {
+button:hover {
     background-color: lightpink;
     color: white;
     cursor: pointer;
-  }
-
-.play-pause-btn:hover {
-background-color: lightpink;
-color: white;
-cursor: pointer;
-}
-
-.speed-controls-r:hover {
-background-color: lightpink;
-color: white;
-cursor: pointer;
 }
 
 #beat-counter-container {

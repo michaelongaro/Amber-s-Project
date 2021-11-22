@@ -9,6 +9,17 @@ beat_sound.currentTime = 0;
 const first = document.getElementById("first");
 const second = document.getElementById("second");
 const third = document.getElementById("third");
+const secretContainer = document.getElementById("secret-container");
+const sixtyNine = document.getElementById("sixty-nine");
+
+let x = 200;
+let y = 0;
+
+let width = window.innerWidth || document.documentElement.clientWidth ||
+  document.body.clientWidth;
+let height = window.innerHeight || document.documentElement.clientHeight ||
+  document.body.clientHeight
+
 
 first.addEventListener("click", () => {
   changeSpeed("first");
@@ -22,15 +33,29 @@ third.addEventListener("click", () => {
   changeSpeed("third");
 })
 
-function changeSpeed(id) {
-  if (bpm < 0) return
+sixtyNine.addEventListener("click", () => {
+  changeSpeed("69");
+})
 
-  if (id == "first" && (bpm - 1 >= 0)) {
+secretContainer.addEventListener("mouseover", () => {
+  sixtyNine.style.display = "block";
+
+  glideButtonToLocation();
+})
+
+
+function changeSpeed(id) {
+
+  if (id == "first" && (bpm - 10 >= 0)) {
     bpm -= 10;
+  } else if (id == "first" && (bpm - 10 <= 0)) {
+    bpm = 0;
   } else if (id == "third") {
     bpm = 0;
   } else if (id == "second") {
     bpm += 10;
+  } else if (id == "69") {
+    bpm = 69;
   }
 
   document.getElementById('bpm').innerHTML = bpm;
@@ -60,6 +85,47 @@ socket.on('pause movement', () => {
   destroyCircleLoop();
 });
 
+function randomizeSpecialButtonLocation() {
+  // x = 200;
+  x = Math.floor(Math.random() * (width - 100) + 50)
+  while (x > (width/2 - 200) && x < (width/2 + 200)) {
+    x = Math.floor(Math.random() * (width - 100) + 50)
+  }
+  y = Math.floor(Math.random() * (700 - 50) + 50)
+  console.log(x, y);
+  secretContainer.style.left = `${x}px`;
+  secretContainer.style.top = `${y}px`;
+}
+
+function glideButtonToLocation() {
+  let negWidth = -1 * (width/2);
+  let negHeight = -1 * 500;
+  if (x < width/2) {
+    negWidth *= -1;
+    negWidth -= x;
+  } else {
+    negWidth += x;
+    negWidth *= -1;
+  }
+  if (y < 500) {
+    negHeight *= -1;
+    negHeight -= y;
+  } else {
+    negHeight += y;
+    negHeight *= -1;
+  }
+
+  anime({
+    targets: "#sixty-nine",
+    translateX: (negWidth - 50),
+    translateY: (negHeight - 10),
+    // scale: [1, 1.5, 1],
+    rotate: '1turn',
+    // maybe find way to make it fucking EXPAND and then go back to normal...
+    duration: 1000,
+    easing: "easeOutQuad"
+  });
+}
 
 function createAndMoveCircle() {
   if (circleLoop) {
@@ -110,6 +176,7 @@ function squishCircle() {
   });
 }
 
+randomizeSpecialButtonLocation();
 // function unsquishCircle() {
 //   anime({
 //     targets: "#center-beat-circle",
